@@ -1,0 +1,32 @@
+services:
+  app:
+    build:
+      context: ../main # A build context aponta para a pasta do Laravel
+      dockerfile: ../docker/Dockerfile
+    volumes:
+      - ../main:/var/www/html
+    depends_on:
+      - db
+
+  web:
+    image: nginx:alpine
+    ports:
+      - "8000:80"
+    volumes:
+      - ../main:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: sigac_db
+      MYSQL_USER: sigac_user
+      MYSQL_PASSWORD: sigac_pass
+    volumes:
+      - dbdata:/var/lib/mysql
+
+volumes:
+  dbdata:
