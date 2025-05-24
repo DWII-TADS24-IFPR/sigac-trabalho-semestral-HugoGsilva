@@ -23,10 +23,10 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root_password
       MYSQL_DATABASE: sigac_db
-      MYSQL_USER: sigac_user
-      MYSQL_PASSWORD: sigac_pass
-    volumes:
-      - dbdata:/var/lib/mysql
+      MYSQL_USER: sigacuser
+      MYSQL_PASSWORD: sigacpass
+      volumes:
+        - dbdata:/var/lib/mysql
 
 volumes:
   dbdata:
