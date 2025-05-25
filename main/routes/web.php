@@ -1,41 +1,52 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\SolicitacaoController as AdminSolicitacaoController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SolicitacaoController;
+use Illuminate\Support\Facades\Route;
 
 // Página inicial
 Route::get('/', function () {
     return view('welcome');
 });
 
-// Dashboard (apenas para usuários autenticados e verificados)
+// Dashboard (usuários autenticados e verificados)
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-// Rotas de perfil - corrigido para usar ProfileController
+// Rotas de perfil
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile',   [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::delete('/profile',[ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Submissão de solicitações (usuário autenticado)
 Route::middleware('auth')->group(function () {
-    Route::get('solicitacoes/create', [SolicitacaoController::class,'create'])
+    Route::get('solicitacoes/create', [SolicitacaoController::class, 'create'])
          ->name('solicitacoes.create');
-    Route::post('solicitacoes',    [SolicitacaoController::class,'store'])
+    Route::post('solicitacoes',       [SolicitacaoController::class, 'store'])
          ->name('solicitacoes.store');
 });
 
-// Rotas administrativas - usando AdminController
+// Rotas administrativas (admin)
 Route::prefix('admin')
      ->name('admin.')
      ->middleware(['auth', 'is_admin'])
      ->group(function () {
+         // CRUD de Cursos/Turmas/Eixos
          Route::resource('cursos', AdminController::class);
+
+         // Fluxo de aprovação de solicitações
+         Route::get('solicitacoes', [AdminSolicitacaoController::class, 'index'])
+              ->name('solicitacoes.index');
+         Route::patch('solicitacoes/{solicitacao}/aprovar', [AdminSolicitacaoController::class, 'aprovar'])
+              ->name('solicitacoes.aprovar');
+         Route::patch('solicitacoes/{solicitacao}/rejeitar', [AdminSolicitacaoController::class, 'rejeitar'])
+              ->name('solicitacoes.rejeitar');
      });
 
-// Rotas de autenticação padrão
-require __DIR__.'/auth.php';
+// Rotas de autenticação padrão (login, registro, etc.)
+require __DIR__ . '/auth.php';
