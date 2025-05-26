@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\TurmaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SolicitacaoController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DeclaracaoController;
 
 // Página inicial
 Route::get('/', function () {
@@ -31,6 +32,13 @@ Route::middleware('auth')->group(function () {
          ->name('solicitacoes.create');
     Route::post('solicitacoes',       [SolicitacaoController::class, 'store'])
          ->name('solicitacoes.store');
+});
+
+Route::middleware('auth')->group(function(){
+    Route::get('declaracoes',       [DeclaracaoController::class,'index'])
+         ->name('declaracoes.index');
+    Route::get('declaracoes/pdf',   [DeclaracaoController::class,'gerar'])
+         ->name('declaracoes.gerar');
 });
 
 // Rotas administrativas (admin)
