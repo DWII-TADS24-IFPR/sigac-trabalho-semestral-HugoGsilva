@@ -10,36 +10,52 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    // Atributos que podem ser atribuídos em massa
+    /**
+     * Atributos que podem ser atribuídos em massa.
+     */
     protected $fillable = [
-        'name', 'email', 'password', 'role',
+        'name',
+        'email',
+        'password',
+        'role',
+        'turma_id',    // ← adiciona turma_id
     ];
-
-    // Tipos de dados dos atributos
+    
+    /**
+     * Tipos de dados dos atributos.
+     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
-    // Relacionamento com solicitações (um usuário pode ter muitas solicitações)
+    /**
+     * Relacionamento: um usuário pode ter muitas solicitações.
+     */
     public function solicitacoes()
     {
         return $this->hasMany(Solicitacao::class);
     }
 
-    // Relacionamento com a turma (um usuário pode estar em várias turmas, caso aplicável)
-    public function turmas()
+    /**
+     * Relacionamento: um usuário pertence a uma única turma.
+     */
+    public function turma()
     {
-        return $this->belongsToMany(Turma::class, 'user_turma');
+        return $this->belongsTo(Turma::class);
     }
 
-    // Atributo para verificar se o usuário é administrador
-    public function isAdmin()
+    /**
+     * Verifica se o usuário tem o papel de administrador.
+     */
+    public function isAdmin(): bool
     {
         return $this->role === 'admin';
     }
 
-    // Lógica de autenticação usando o bcrypt
-    public function setPasswordAttribute($value)
+    /**
+     * Ao atribuir password, já criptografa com bcrypt.
+     */
+    public function setPasswordAttribute($value): void
     {
         $this->attributes['password'] = bcrypt($value);
     }

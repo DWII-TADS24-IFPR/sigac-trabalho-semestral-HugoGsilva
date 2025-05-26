@@ -21,6 +21,7 @@ class Solicitacao extends Model
         'descricao',
         'arquivo',
         'status',
+        'horas',
     ];
 
     public function user()

@@ -41,9 +41,18 @@
       @error('arquivo')<p class="text-red-600">{{ $message }}</p>@enderror
     </div>
 
+      <div>
+        <label for="horas" class="block font-medium">Horas:</label>
+        <input type="number" name="horas" id="horas"
+              value="{{ old('horas') }}" min="0"
+              required class="w-24 border-gray-300 rounded-md">
+        @error('horas')<p class="text-red-600">{{ $message }}</p>@enderror
+      </div>
+
     <button type="submit"
             class="px-4 py-2 bg-blue-600 text-white rounded">
       Enviar Solicitação
     </button>
   </form>
 @endsection
+

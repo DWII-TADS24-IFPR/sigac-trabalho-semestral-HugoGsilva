@@ -19,6 +19,7 @@ class SolicitacaoController extends Controller
             'titulo'    => 'required|string|max:255',
             'descricao' => 'required|string',
             'arquivo'   => 'required|file',
+            'horas'     => 'required|integer|min:0',
         ]);
 
         $path = $request
@@ -30,6 +31,7 @@ class SolicitacaoController extends Controller
             'titulo'    => $request->titulo,
             'descricao' => $request->descricao,
             'arquivo'   => $path,
+            'horas'     => $request->horas,
         ]);
 
         return redirect()
