@@ -30,16 +30,19 @@
           <td class="px-4 py-2">{{ $u->role }}</td>
           <td class="px-4 py-2">{{ $u->turma->nome ?? '-' }}</td>
           <td class="px-4 py-2 space-x-2">
-            <a href="{{ route('admin.usuarios.edit', $u) }}"
-               class="underline text-blue-600">
-               Editar
-            </a>
-            <form action="{{ route('admin.usuarios.destroy', $u) }}" method="POST" class="inline">
-              @csrf @method('DELETE')
-              <button onclick="return confirm('Confirmar?')" class="underline text-red-600">
-                Excluir
-              </button>
-            </form>
+            @if($u->role !== 'admin')
+              <a href="{{ route('admin.usuarios.edit', $u) }}"
+                 class="underline text-blue-600">Editar</a>
+
+              <form action="{{ route('admin.usuarios.destroy', $u) }}"
+                    method="POST"
+                    class="inline"
+                    onsubmit="return confirm('Confirma exclusão?')">
+                @csrf
+                @method('DELETE')
+                <button class="underline text-red-600">Excluir</button>
+              </form>
+            @endif
           </td>
         </tr>
       @endforeach

@@ -5,18 +5,18 @@
 @endsection
 
 @section('content')
-  <form action="{{ route('admin.usuarios.update', $user) }}" method="POST" class="space-y-4">
+  <form action="{{ route('admin.usuarios.update', $usuario) }}" method="POST" class="space-y-4">
     @csrf @method('PUT')
 
     <div>
       <label class="block">Nome</label>
-      <input name="name" value="{{ old('name',$user->name) }}" required class="w-full border rounded px-2 py-1">
+      <input name="name" value="{{ old('name',$usuario->name) }}" required class="w-full border rounded px-2 py-1">
       @error('name')<p class="text-red-600">{{ $message }}</p>@enderror
     </div>
 
     <div>
       <label class="block">Email</label>
-      <input name="email" type="email" value="{{ old('email',$user->email) }}" required class="w-full border rounded px-2 py-1">
+      <input name="email" type="email" value="{{ old('email',$usuario->email) }}" required class="w-full border rounded px-2 py-1">
       @error('email')<p class="text-red-600">{{ $message }}</p>@enderror
     </div>
 
@@ -34,8 +34,8 @@
     <div>
       <label class="block">Perfil</label>
       <select name="role" required class="w-full border rounded px-2 py-1">
-        <option value="aluno" {{ old('role',$user->role)=='aluno'? 'selected':'' }}>Aluno</option>
-        <option value="admin" {{ old('role',$user->role)=='admin'? 'selected':'' }}>Administrador</option>
+        <option value="aluno" {{ old('role',$usuario->role)=='aluno'? 'selected':'' }}>Aluno</option>
+        <option value="admin" {{ old('role',$usuario->role)=='admin'? 'selected':'' }}>Administrador</option>
       </select>
       @error('role')<p class="text-red-600">{{ $message }}</p>@enderror
     </div>
@@ -45,7 +45,7 @@
       <select name="turma_id" class="w-full border rounded px-2 py-1">
         <option value="">— Nenhuma —</option>
         @foreach($turmas as $t)
-          <option value="{{ $t->id }}" {{ old('turma_id',$user->turma_id)==$t->id?'selected':'' }}>
+          <option value="{{ $t->id }}" {{ old('turma_id',$usuario->turma_id)==$t->id?'selected':'' }}>
             {{ $t->nome }}
           </option>
         @endforeach

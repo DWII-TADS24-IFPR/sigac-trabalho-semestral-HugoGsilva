@@ -56,7 +56,7 @@ Route::prefix('admin')
          Route::resource('turmas',   TurmaController::class);
 
          // CRUD de Usuários
-         Route::resource('usuarios', UserController::class)->parameters(['usuarios' => 'user']);
+         Route::resource('usuarios', UserController::class)->except('show');
 
          // CRUD de Níveis de Ensino
          Route::resource('niveis',   NivelController::class);
